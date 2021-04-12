@@ -45,11 +45,11 @@ contract CreatureFactory is FactoryERC721, Ownable {
     }
 
     function name() external view returns (string memory) {
-        return "OpenSeaCreature Item Sale";
+        return "Heros Item Sale";
     }
 
     function symbol() external view returns (string memory) {
-        return "CPF";
+        return "HIS";
     }
 
     function supportsFactoryInterface() public view returns (bool) {
@@ -72,7 +72,7 @@ contract CreatureFactory is FactoryERC721, Ownable {
         }
     }
 
-    function mint(uint256 _optionId, address _toAddress) public {
+    function mint(uint256 _optionId, address _toAddress, uint _hashrate) public {
         // Must be sent from the owner proxy or owner.
         ProxyRegistry proxyRegistry = ProxyRegistry(proxyRegistryAddress);
         assert(
@@ -84,14 +84,14 @@ contract CreatureFactory is FactoryERC721, Ownable {
 
         Creature openSeaCreature = Creature(nftAddress);
         if (_optionId == SINGLE_CREATURE_OPTION) {
-            openSeaCreature.mintTo(_toAddress);
+            openSeaCreature.mintTo(_toAddress, _hashrate);
         } else if (_optionId == MULTIPLE_CREATURE_OPTION) {
             for (
                 uint256 i = 0;
                 i < NUM_CREATURES_IN_MULTIPLE_CREATURE_OPTION;
                 i++
             ) {
-                openSeaCreature.mintTo(_toAddress);
+                openSeaCreature.mintTo(_toAddress,_hashrate);
             }
         } else if (_optionId == LOOTBOX_OPTION) {
             CreatureLootBox openSeaCreatureLootBox = CreatureLootBox(
@@ -136,7 +136,7 @@ contract CreatureFactory is FactoryERC721, Ownable {
         address _to,
         uint256 _tokenId
     ) public {
-        mint(_tokenId, _to);
+        mint(_tokenId, _to, 0);
     }
 
     /**

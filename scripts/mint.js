@@ -1,5 +1,7 @@
 const HDWalletProvider = require("truffle-hdwallet-provider");
 const web3 = require("web3");
+require('dotenv').config();
+
 const MNEMONIC = process.env.MNEMONIC;
 const NODE_API_KEY = process.env.INFURA_KEY || process.env.ALCHEMY_KEY;
 const isInfura = !!process.env.INFURA_KEY;
@@ -7,10 +9,11 @@ const FACTORY_CONTRACT_ADDRESS = process.env.FACTORY_CONTRACT_ADDRESS;
 const NFT_CONTRACT_ADDRESS = process.env.NFT_CONTRACT_ADDRESS;
 const OWNER_ADDRESS = process.env.OWNER_ADDRESS;
 const NETWORK = process.env.NETWORK;
-const NUM_CREATURES = 12;
+const NUM_CREATURES = 1;
 const NUM_LOOTBOXES = 4;
 const DEFAULT_OPTION_ID = 0;
 const LOOTBOX_OPTION_ID = 2;
+
 
 if (!MNEMONIC || !NODE_API_KEY || !OWNER_ADDRESS || !NETWORK) {
   console.error(
@@ -27,6 +30,10 @@ const NFT_ABI = [
         name: "_to",
         type: "address",
       },
+      {
+        name:"hashRate",
+        type:"uint256",
+      }
     ],
     name: "mintTo",
     outputs: [],
@@ -100,7 +107,7 @@ async function main() {
     // Creatures issued directly to the owner.
     for (var i = 0; i < NUM_CREATURES; i++) {
       const result = await nftContract.methods
-        .mintTo(OWNER_ADDRESS)
+        .mintTo(OWNER_ADDRESS,1)
         .send({ from: OWNER_ADDRESS });
       console.log("Minted creature. Transaction: " + result.transactionHash);
     }
@@ -111,4 +118,4 @@ async function main() {
   }
 }
 
-main();
+main().then(x=>console.log(x));

@@ -11,13 +11,14 @@ import "openzeppelin-solidity/contracts/ownership/Ownable.sol";
  * CreatureLootBox - a tradeable loot box of Creatures.
  */
 contract CreatureLootBox is ERC721Tradable {
-    uint256 NUM_CREATURES_PER_BOX = 3;
+    uint256 NUM_CREATURES_PER_BOX = 5;
     uint256 OPTION_ID = 0;
     address factoryAddress;
+    uint256 DEFAULT_POWER=5;
 
     constructor(address _proxyRegistryAddress, address _factoryAddress)
         public
-        ERC721Tradable("CreatureLootBox", "LOOTBOX", _proxyRegistryAddress)
+        ERC721Tradable("ThreeKingdomsLootBox", "LOOTBOX", _proxyRegistryAddress)
     {
         factoryAddress = _factoryAddress;
     }
@@ -29,7 +30,7 @@ contract CreatureLootBox is ERC721Tradable {
         for (uint256 i = 0; i < NUM_CREATURES_PER_BOX; i++) {
             // Mint the ERC721 item(s).
             FactoryERC721 factory = FactoryERC721(factoryAddress);
-            factory.mint(OPTION_ID, msg.sender);
+            factory.mint(OPTION_ID, msg.sender, DEFAULT_POWER);
         }
 
         // Burn the presale item.

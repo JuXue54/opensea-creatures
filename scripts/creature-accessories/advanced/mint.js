@@ -1,5 +1,7 @@
 const HDWalletProvider = require('truffle-hdwallet-provider')
 const web3 = require('web3')
+require('dotenv').config();
+
 const MNEMONIC = process.env.MNEMONIC
 const INFURA_KEY = process.env.INFURA_KEY
 const LOOTBOX_CONTRACT_ADDRESS = process.env.LOOTBOX_CONTRACT_ADDRESS
